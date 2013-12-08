@@ -1,11 +1,15 @@
+import java.io.IOException;
+
+
+
 /** A contact list program that stores users' information into the list**/
 public class Main {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException, ClassNotFoundException  {
 			List contact = new List();
 			
 			int runVariable = 0;
-
-            contact.runMenu();
+			contact.runMenu();
+            
             while (runVariable == 0) {
                     int userChoice = contact.mainMenu();
 
@@ -20,7 +24,8 @@ public class Main {
                             runVariable = 1;
                     } 
                     else
-                            System.out.println("Invalid input.");
+                            System.out.println("Invalid Input.");
+                   
 		}
 	}
 }

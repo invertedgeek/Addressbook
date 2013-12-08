@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,17 +11,7 @@ import java.util.Scanner;
 public class List {
 
 	private ArrayList<Person> list = new ArrayList<Person>();
-	
-	/**
-     * Searches to see if there is an existing
-     * contact list .txt file on the hard drive.
-     * If there is, it loads it and returns to the main.
-     * If there isn't, it returns to the main program.
-     */
-	public void runMenu() {
-		
-		
-	}
+
 	/**
 	 * Prompt user to input First Name, Last Name, Email, Address, Phone Number
 	 * and Notes. Read the values and store the values into the contact list.
@@ -49,8 +42,11 @@ public class List {
 		}
 
 		/** If last name is blank again, contact is not being stored **/
-		if (lastName.equals("")) {
-			System.out.println("Contact is not being stored. ");
+		if (lastName1.equals("")) {
+			System.out
+					.println("--------------------------------------------------------------");
+			System.out
+					.println("Contact is not being stored since you did not input Last Name. ");
 		} else {
 			System.out.print("  Email     : ");
 			String email = myScanner.nextLine();
@@ -70,10 +66,11 @@ public class List {
 			/** Contact information of one person is stored **/
 			list.add(newPerson);
 			System.out.println(firstName + " " + lastName + lastName1 + " "
-							+ "has been successfully added to the contact list! ");
+					+ "has been successfully added to the contact list! ");
 		}
-	
+
 	}
+
 	/** This method prints out the contacts inside the list **/
 	public void printList() {
 		System.out.println("2. Print the list of contact. ");
@@ -85,67 +82,94 @@ public class List {
 	/**
 	 * This method retrieve the individual(s) contact info. from the list by
 	 * searching last name
-	 * @param person 
+	 * 
+	 * @param person
 	 **/
 	public void searchLastName() {
 		System.out.println("3. Retrieve contacts by searching last name. ");
 		System.out.print(" Last Name: ");
 		Scanner myScanner = new Scanner(System.in);
 		String lastName2 = myScanner.nextLine();
-		
-		for (Person person: list)
-        {
-                if (lastName2.equals(person.getLastName())) 
-                {
-                        System.out.println(person);
-                }
-                else {
-                	System.out.println("There are no last name matches in the contact list");
-                
-                }
-        }
-		System.out.println("-----------------------------");
-        System.out.println("Redirecting to the Main Menu");
-       
+		System.out.println("--------------------------------------------------------------");
+
+		for (Person person : list) {
+			if (lastName2.equalsIgnoreCase(person.getLastName())) {
+				System.out.println(person);
+			}
+			else {
+				System.out.println("No contacts found");
+	}
+		}
+	}
+
+	/**
+	 * Basic UI for the program which prompts users to choose one of the four
+	 * options provided
+	 **/
+	public int mainMenu() {
+		System.out
+				.println("--------------------------------------------------------------");
+		System.out.println("What would you like to do?");
+		System.out.println();
+		System.out.println("  1. Add new person");
+		System.out.println("  2. Visualize contact list");
+		System.out
+				.println("  3. Search a specific person on the contact list by last name");
+		System.out.println("  4. Exit");
+		System.out.println();
+		System.out.print("Input: ");
+
+		Scanner myScanner = new Scanner(System.in);
+		int userChoice = myScanner.nextInt();
+		System.out.println("----------------------------------------------------------");
+		return userChoice;
+	}
+
+	/**
+	 * Saves the existing contact list to a .txt file on the hard drive, then
+	 * prints a confirmation and a farewell message.
+	 * 
+	 * @throws IOException
+	 */
+	public void exit() throws IOException {
+
+		BufferedWriter bw = new BufferedWriter(new FileWriter(".\\kkk.txt"));
+		for (Person p : list) {
+			bw.append(p.toString() + "\n");
+		}
+		bw.close();
+
+		System.out.println("Program Terminated, Saved to disk");
+		System.out.println("--------------------------------------------------------------");
+
+	}
+
+	/**
+	 * Searches to see if there is an existing contact list .txt file on the
+	 * hard drive. If there is, it loads it and returns to the main. If there
+	 * isn't, it returns to the main program.
+	 * 
+	 * @throws IOException
+	 */
+	public void runMenu() throws IOException {
+		System.out
+				.println("Searching if there is any contact(s) being stored...");
+		Scanner myScanner1 = new Scanner(new FileInputStream("kkk.txt"));
+		System.out
+				.println("--------------------------------------------------------------");
+		while (myScanner1.hasNextLine()) {
+			System.out.println(myScanner1.nextLine());
+		}
+
+		/**
+		 * If the .txt file is empty, give a message to the user and redirect
+		 * him/her to the main menu.
+		 */
+		BufferedReader br = new BufferedReader(new FileReader("kkk.txt"));
+		if (br.readLine() == null) {
+			System.out
+					.println("No contacts are recently stroed, redirecting to the main menu.");
+		}
+	}
 
 }
-	/**Basic UI for the program which prompts users to choose one of the four options provided**/
-	public int mainMenu() {
-            System.out.println("-----------------------------");
-            System.out.println("What do you want to do?");
-            System.out.println("  1. Add new person");
-            System.out.println("  2. Visualize contact list");
-            System.out.println("  3. Search a specific person on the contact list by last name");
-            System.out.println("  4. Exit");
-            System.out.println();
-            System.out.print("Input: ");
-        
-            Scanner myScanner = new Scanner(System.in);
-            int userChoice = myScanner.nextInt();
-            System.out.println("-----------------------------");
-            return userChoice;
-	}
-
-
-    /**
-     * Saves the existing contact list to a .txt file on the hard drive, 
-     * then prints a confirmation and a farewell message.
-     */
-	public void exit() {
-		  for (Person person : list) {
-			String saving = person.toString();
-		try {
-			BufferedWriter writer = new BufferedWriter ( new FileWriter(".\\ContactListSaved.txt"));
-			writer.write(saving);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}}
-		  
-		
-		System.out.println("------------------");
-		System.out.println("Program Terminated, Saved to disk");
-		System.out.println("------------------");
-	
-	}
-	}

@@ -61,10 +61,18 @@ public class Person {
 
 	/**Returns a String containing the user's information.**/
 		public String toString() {
-			return  firstName + " " + lastName + "\n    Street Address: " + address + "\n    Email address: " + email
-					+ "\n    Phone number: " + phoneNumber + "\n    Notes: " + notes;
-			
-
+			String result = "";
+		    if (firstName != null && lastName != null)
+		        result += "  Name   :  " + firstName + " " + lastName + '\n' ; 
+		    if (email != null)
+		        result += " Email  : " + email + '\n';
+		    if (address != null)
+		        result += " Address: " +  address + '\n';
+		    if (phoneNumber != null)
+		    	result += " Phone  : " + phoneNumber + '\n';
+		    if (notes != null)
+		    	result += " Notes  : " + notes + '\n';
+		    return result.substring(1);
 		
 	}
 	
