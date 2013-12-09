@@ -5,12 +5,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /** One object of this class stores a list of persons' contact **/
 public class List {
 
 	private ArrayList<Person> list = new ArrayList<Person>();
+	
+	
 
 	/**
 	 * Prompt user to input First Name, Last Name, Email, Address, Phone Number
@@ -26,28 +29,22 @@ public class List {
 		String firstName = myScanner.nextLine();
 		newPerson.setFirstName(firstName);
 
-		System.out.print("  Last Name : ");
-		String lastName = myScanner.nextLine();
-		String lastName1 = "";
-
-		/** If last name is blank, prompt user to enter last name again. **/
-		if (lastName.equals("")) {
-			System.out.print("  Please enter Last Name again. "
-					+ "\n  Last Name: ");
-
-			lastName1 = myScanner.nextLine();
-			newPerson.setLastName(lastName1);
-		} else {
-			newPerson.setLastName(lastName);
-		}
-
-		/** If last name is blank again, contact is not being stored **/
-		if (lastName1.equals("")) {
-			System.out
-					.println("--------------------------------------------------------------");
-			System.out
-					.println("Contact is not being stored since you did not input Last Name. ");
-		} else {
+		
+                 System.out.print("  Last Name: ");
+                 String surname = myScanner.nextLine();
+                
+          
+                 if (surname.equals("")) {
+                	     System.out.println("    Please enter a last name.");
+                         System.out.print("  Last Name: ");
+                         String lastName = myScanner.nextLine();
+                         newPerson.setLastName(lastName);
+                 } else {
+                         newPerson.setLastName(surname);}
+                 
+                 
+                 
+         
 			System.out.print("  Email     : ");
 			String email = myScanner.nextLine();
 			newPerson.setEmail(email);
@@ -63,25 +60,36 @@ public class List {
 			String notes = myScanner.nextLine();
 			newPerson.setnotes(notes);
 
+			
+			String lastName = newPerson.getLastName();
+			if (lastName.equals("")){
+				System.out.println("Contact Not Stored");
+			}
+			else{
 			/** Contact information of one person is stored **/
 			list.add(newPerson);
-			System.out.println(firstName + " " + lastName + lastName1 + " "
-					+ "has been successfully added to the contact list! ");
-		}
-
+			System.out.println(newPerson.getFirstName() + " " + newPerson.getLastName() + " "
+							+ "has been successfully added to the contact list! ");
+			}
 	}
-
+		
+	
 	/** This method prints out the contacts inside the list **/
 	public void printList() {
 		System.out.println("2. Print the list of contact. ");
 		for (Person person : list) {
+			Collections.sort(list);
 			System.out.println(person.toString());
+			
 		}
 	}
 
+	
 	/**
 	 * This method retrieve the individual(s) contact info. from the list by
-	 * searching last name
+	 * prompting user to enter the last name that the contact he/ she is looking for.
+	 * If there are more than one same last names in the contact list, it prints out all the contacts with that last name.
+	 * If there are no last name matches what the user typed in, it prints a message to let the user know.
 	 * 
 	 * @param person
 	 **/
@@ -94,12 +102,12 @@ public class List {
 
 		for (Person person : list) {
 			if (lastName2.equalsIgnoreCase(person.getLastName())) {
-				System.out.println(person);
-			}
-			else {
-				System.out.println("No contacts found");
-	}
+				System.out.println(person.toString());}
+				else if (!lastName2.equalsIgnoreCase(person.getLastName())){
+					System.out.println("Contact not found, redirect to the main menu. ");
+				}
 		}
+		
 	}
 
 	/**
@@ -152,24 +160,21 @@ public class List {
 	 * @throws IOException
 	 */
 	public void runMenu() throws IOException {
-		System.out
-				.println("Searching if there is any contact(s) being stored...");
-		Scanner myScanner1 = new Scanner(new FileInputStream("kkk.txt"));
-		System.out
-				.println("--------------------------------------------------------------");
+		String answer;
+		BufferedReader br = new BufferedReader(new FileReader("kkk.txt"));;
+		System.out.println("Do you want to open existing file? (Yes/No)");
+		Scanner answer1 = new Scanner(System.in);
+		answer = answer1.nextLine();
+		if(answer.equalsIgnoreCase("Yes")){
+				Scanner myScanner1 = new Scanner(new FileInputStream("kkk.txt"));
+		System.out.println("--------------------------------------------------------------");
 		while (myScanner1.hasNextLine()) {
 			System.out.println(myScanner1.nextLine());
+		}}
+	
+		else if(br.readLine() == null) {
+			System.out.println("No contacts are recently stroed, redirecting to the main menu.");
 		}
-
-		/**
-		 * If the .txt file is empty, give a message to the user and redirect
-		 * him/her to the main menu.
-		 */
-		BufferedReader br = new BufferedReader(new FileReader("kkk.txt"));
-		if (br.readLine() == null) {
-			System.out
-					.println("No contacts are recently stroed, redirecting to the main menu.");
 		}
 	}
 
-}

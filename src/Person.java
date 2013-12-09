@@ -1,6 +1,6 @@
 /** One object of class Person stores an indivdual's contact info **/
 
-public class Person {
+public class Person implements Comparable <Person> {
 		
 	private String firstName;   // firstName is a data member.
 	private String lastName;    // lastName is a data member.
@@ -8,6 +8,17 @@ public class Person {
 	private String address;     // address is a data member.
 	private String phoneNumber; // phoneNumber is a data member     
 	private String notes;       // notes is a data member.
+	
+	 /**
+     * Compare the value of lastName
+     */
+    public int compareTo(Person otherPerson){
+            int result = lastName.compareToIgnoreCase(otherPerson.lastName);
+            if (result == 0){
+                    return (firstName.compareTo(firstName));
+            }
+            return result;
+    }
 	
 	/**Sets the value of firstName to "newFirstName".**/
 	public void setFirstName(String newFirstName) {

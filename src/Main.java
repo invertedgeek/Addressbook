@@ -6,7 +6,6 @@ import java.io.IOException;
 public class Main {
 	public static void main(String args[]) throws IOException, ClassNotFoundException  {
 			List contact = new List();
-			
 			int runVariable = 0;
 			contact.runMenu();
             
@@ -16,6 +15,7 @@ public class Main {
                     if (userChoice == 1) 
                             contact.addPerson();
                     else if (userChoice == 2)
+                    		
                     		contact.printList();
                     else if (userChoice == 3)
                             contact.searchLastName();
@@ -25,7 +25,7 @@ public class Main {
                     } 
                     else
                             System.out.println("Invalid Input.");
-                   
+                 
 		}
 	}
 }
